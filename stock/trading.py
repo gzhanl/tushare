@@ -178,7 +178,7 @@ def get_bk_capital_flow(code=None, retry_count=3,pause=0.001):
     Parameters
     ------
       code:string
-                  股票代码 e.g. 600848
+                  板块代码 e.g. 433
       ktype：string
                   数据类型，D=日k线 W=周 M=月 5=5分钟 15=15分钟 30=30分钟 60=60分钟，默认为D
       retry_count : int, 默认 3
