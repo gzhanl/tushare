@@ -10,3 +10,7 @@ get_hist_capital_flow
 计划：
 增加 获取北上板块历史资金流向  
 http://data.eastmoney.com/bkzj/hy.html
+
+
+## 202007 新增  
+北上板块资金流
