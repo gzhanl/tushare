@@ -179,16 +179,16 @@ def get_bk_capital_flow(code=None, retry_count=3,pause=0.001):
     ------
       code:string
                   板块代码 e.g. 433
-      ktype：string
-                  数据类型，D=日k线 W=周 M=月 5=5分钟 15=15分钟 30=30分钟 60=60分钟，默认为D
+      
       retry_count : int, 默认 3
                  如遇网络等问题重复执行的次数
+                 
       pause : int, 默认 0
                 重复请求数据过程中暂停的秒数，防止请求间隔时间太短出现的问题
     return
     -------
       DataFrame
-          属性:日期 ，开盘价， 最高价， 收盘价， 最低价， 成交量， 价格变动 ，涨跌幅，5日均价，10日均价，20日均价，5日均量，10日均量，20日均量，换手率
+          属性:
         """
 
 
