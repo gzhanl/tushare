@@ -7,6 +7,7 @@ get_hist_capital_flow
 3.__init__.py  
 
 ## 202007 新增  
-北上板块资金流
-增加 获取北上板块历史资金流向    
+北上板块资金流   
 http://data.eastmoney.com/bkzj/hy.html  
+
+获取北上板块历史资金流向  
