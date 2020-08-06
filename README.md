@@ -6,11 +6,8 @@ get_hist_capital_flow
 2.stock\cons.py   
 3.__init__.py  
 
-
-计划：
-增加 获取北上板块历史资金流向  
-http://data.eastmoney.com/bkzj/hy.html
-
-
 ## 202007 新增  
-北上板块资金流
+北上板块资金流       northbound-funds（北上資金）  
+http://data.eastmoney.com/bkzj/hy.html  
+
+获取北上板块历史资金流向（eastmoney.com）  
