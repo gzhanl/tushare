@@ -10,4 +10,4 @@ get_hist_capital_flow
 北上板块资金流   
 http://data.eastmoney.com/bkzj/hy.html  
 
-获取北上板块历史资金流向  
+获取北上板块历史资金流向（eastmoney.com）  
