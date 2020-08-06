@@ -172,7 +172,7 @@ def get_hist_capital_flow(code=None, retry_count=3,pause=0.001):
 """
 20200714  --------------------------
 """
-def get_bk_capital_flow(code=None, retry_count=3,pause=0.001):
+def get_nbfbk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
     """
         获取北上板块历史资金流向    （eastmoney.com） http://data.eastmoney.com/hsgtcg/BK0456.html
     Parameters

@@ -10,7 +10,7 @@ for trading data
 """
 from tushare.stock.trading import (get_hist_data, get_tick_data,
                                    get_hist_capital_flow,                     #  20190731 新增个股资金流
-                                   get_bk_capital_flow,                      #  20200714 新增板块资金流
+                                   get_nbfbk_hist_capital_flow,               #  20200714 新增板块资金流
                                    get_today_all, get_realtime_quotes,
                                    get_h_data, get_today_ticks,
                                    get_index, get_hists,
