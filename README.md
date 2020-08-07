@@ -11,3 +11,8 @@ get_hist_capital_flow
 http://data.eastmoney.com/bkzj/hy.html  
 
 获取北上板块历史资金流向（eastmoney.com）  
+get_nbfbk_hist_capital_flow('480')  
+** 480 板块代码
+
+
+## 202009 新增
