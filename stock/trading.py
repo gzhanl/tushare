@@ -238,6 +238,86 @@ def get_nbfbk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
     raise IOError(ct.NETWORK_URL_ERROR_MSG)
 
 
+"""
+202008 --------------------------
+"""
+def get_bk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
+    """
+        获取板块历史资金流向    （eastmoney.com） http://data.eastmoney.com/bkzj/BK0735.html
+    Parameters
+    ------
+      code:string
+                  板块代码 e.g. 433
+      
+      retry_count : int, 默认 3
+                 如遇网络等问题重复执行的次数
+                 
+      pause : int, 默认 0
+                重复请求数据过程中暂停的秒数，防止请求间隔时间太短出现的问题
+    return
+    -------
+      DataFrame
+          属性:
+        """
+
+
+    #url = ct.EM_BKCF_URL%(ct.P_TYPE['http'],ct.DOMAINS['em'])
+    #url = "http://dcfm.eastmoney.com/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_LS_MX&token=894050c76af8597a853f5b408b759f5d&st=HdDate&sr=-1&p=1&ps=50&js=var%20kYbJeWxa={+pages:(tp),data:(x)}&filter=(ORIGINALCODE=" + code + " )"
+
+    #url = "http://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get?secid=90.BK0735&fields1=f1,f2,f3,f7&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f62,f63,f64,f65&ut=b2884a393a59ad64002292a3e90d46a5&cb=jQuery18302960747161821411_1596801801147&_=1596801802632"
+    url="http://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get?secid=90.BK0480&fields1=f1,f2,f3,f7&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f62,f63,f64,f65"
+    #url1="http://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get?&secid=90.BK0735&fields1=f1,f2,f3,f7&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f62,f63,f64,f65"
+    #url2="&ut=b2884a393a59ad64002292a3e90d46a5&cb=jQuery18302960747161821411_1596801801147&_=1596801802632"
+    #url=url1+url2
+    
+    #url = "http://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get?zxczxczxczxczxczxcxzczxcxzczxcxzczzxczxczxczxczxczxczxczxczxczxczxczxczxc"
+
+
+    #http: // dcfm.eastmoney.com / EM_MutiSvcExpandInterface / api / js / get?type = HSGT20_HYTJ_LS_MX & token = 894050c76af8597a853f5b408b759f5d & st = HdDate & sr = -1 & p = 1 & ps = 50 & js = var % 20kYbJeWxa = {pages: (tp), data: (x)} & filter = (ORIGINALCODE=433)
+    print(url)
+
+
+    for _ in range(retry_count):
+        time.sleep(pause)
+        try:
+            r = requests.get(url)
+            pat = "data:\[\{(.*?)\]\}"
+            data = re.compile(pat, re.S).findall(r.text)
+
+            #datas = data[0].split('","')
+            datas = data[0].split('HYCode')
+
+            flows = []
+            for i in range(len(datas)):
+                flow = datas[i].replace('"', "").split(",")
+
+                for j in range(len(flow)):
+                    flow[j] = re.sub( '.*?' , '' ,flow[j])   # 將每行數據內容   'XXXXX:123123' >>>> '123123'
+
+                flows.append(flow)
+
+
+
+
+            df = pd.DataFrame(flows)
+            # 提取主要数据/提取全部数据
+
+            # new_order = [1,2,3, 8, 9, 10, 11, 12]
+            # df = df[df.columns[new_order]]
+           
+            # columns = {0: "date", 11: "close", 12: "change", 1: "main_buy", 2: "main_buy_ratio", 3: "superlarge_buy", 4: "superlarge_bug_ratio",
+            #            5: "large_buy", 6: "large_buy_ratio", 7: "mid_buy", 8: "mid_buy_ratio", 9: "small_buy", 10: "small_buy_ratio"}
+            #
+            # df.rename(columns=columns, inplace=True)
+
+            df = df.sort_index(ascending=True)
+            return df
+        except Exception as e:
+            print(e)
+    raise IOError(ct.NETWORK_URL_ERROR_MSG)
+
+
+
 def _parsing_dayprice_json(types=None, page=1):
     """
            处理当日行情分页数据，格式为json

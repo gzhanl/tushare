@@ -141,7 +141,17 @@ EM_HCF_URL = '%sff.%s//EM_CapitalFlowInterface/api/js?type=hff&rtntype=2&js=({da
  # get_nbfbk_capital_flow
 """
 #  EM_BKCF_URL='http://dcfm.eastmoney.com/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_LS_MX&token=894050c76af8597a853f5b408b759f5d&st=HdDate&sr=-1&p=1&ps=50&js=var%20kYbJeWxa={pages:(tp),data:(x)}&filter=(ORIGINALCODE=%27456%27)&rt=53158040
-EM_BKCF_URL= '%sdcfm.%s//EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_LS_MX&token=894050c76af8597a853f5b408b759f5d&st=HdDate&sr=-1&p=1&ps=50&js=var%%20kYbJeWxa={pages:(tp),data:(x)}&filter=(ORIGINALCODE=%s)'  # p=1 頁數 ps=50 每頁條數
+EM_NBFBKCF_URL= '%sdcfm.%s//EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_LS_MX&token=894050c76af8597a853f5b408b759f5d&st=HdDate&sr=-1&p=1&ps=50&js=var%%20kYbJeWxa={pages:(tp),data:(x)}&filter=(ORIGINALCODE=%s)'  # p=1 頁數 ps=50 每頁條數
+
+
+"""
+新增的url 202008 板块资金流
+ # get_bk_hist_capital_flow
+"""
+
+#  EM_BKCF_URL= 'http://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get?lmt=0&klt=101&secid=90.BK0735&fields1=f1,f2,f3,f7&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f62,f63,f64,f65&ut=b2884a393a59ad64002292a3e90d46a5&cb=jQuery18302960747161821411_1596801801147&_=1596801802632
+EM_BKCF_URL= '%spush2his.%s//api/qt/stock/fflow/daykline/get?lmt=0&klt=101&secid=90.BK0735&fields1=f1,f2,f3,f7&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f62,f63,f64,f65&ut=b2884a393a59ad64002292a3e90d46a5&cb=jQuery18302960747161821411_1596801801147&_=1596801802632'  # p=1 頁數 ps=50 每頁條數
+
 
 
 SINA_DD = '%s%s/quotes_service/view/%s?symbol=%s&num=60&page=1&sort=ticktime&asc=0&volume=%s&amount=0&type=0&day=%s'
