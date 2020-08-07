@@ -137,8 +137,8 @@ EM_HCF_URL = '%sff.%s//EM_CapitalFlowInterface/api/js?type=hff&rtntype=2&js=({da
 
 
 """
-新增的url 20200714 板块资金流
- # get_bk_capital_flow
+新增的url 20200714 北上资金板块资金流
+ # get_nbfbk_capital_flow
 """
 #  EM_BKCF_URL='http://dcfm.eastmoney.com/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_LS_MX&token=894050c76af8597a853f5b408b759f5d&st=HdDate&sr=-1&p=1&ps=50&js=var%20kYbJeWxa={pages:(tp),data:(x)}&filter=(ORIGINALCODE=%27456%27)&rt=53158040
 EM_BKCF_URL= '%sdcfm.%s//EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_LS_MX&token=894050c76af8597a853f5b408b759f5d&st=HdDate&sr=-1&p=1&ps=50&js=var%%20kYbJeWxa={pages:(tp),data:(x)}&filter=(ORIGINALCODE=%s)'  # p=1 頁數 ps=50 每頁條數
