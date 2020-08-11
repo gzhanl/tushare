@@ -15,4 +15,6 @@ get_nbfbk_hist_capital_flow('480')
 ** 480 板块代码
 
 
-## 202009 新增
+## 202009 新增  
+板块资金流   
+get_bk_hist_capital_flow('480')    
