@@ -9,3 +9,6 @@ pd.set_option('display.width',1000)
 
 res=ts.get_bk_hist_capital_flow('480')
 print(res)
+
+
+
