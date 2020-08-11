@@ -19,5 +19,5 @@ get_nbfbk_hist_capital_flow('480')
 板块资金流  
 http://data.eastmoney.com/bkzj/BK0480.html  （獲取板塊480歷史資金流）  
 
-获取板块历史资金流向（eastmoney.com） 
+获取板块历史资金流向（eastmoney.com）    
 get_bk_hist_capital_flow('480')      
