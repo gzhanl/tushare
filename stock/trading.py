@@ -297,8 +297,8 @@ def get_bk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
             df = pd.DataFrame(flows)
             # 提取主要数据/提取全部数据
 
-             new_order = [0,1,6,2,7,3,8,4,9,5,10]
-             df = df[df.columns[new_order]]
+            new_order = [0,1,6,2,7,3,8,4,9,5,10]
+            df = df[df.columns[new_order]]
            
             columns = {0: "date", 1: "main_buy", 2: "mainbuy_ratio", 3: "Slarge_buy", 4: "Slarge_buy_ratio", 5: "big_buy", 6: "bigbug_ratio",
                         7: "Mid_buy", 8: "Midbuy_ratio", 9: "small_buy", 10: "smallbuy_ratio", 11: "small_buy", 11: "small_buy_ratio"}
