@@ -197,7 +197,7 @@ def get_nbfbk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
 
     #http: // dcfm.eastmoney.com / EM_MutiSvcExpandInterface / api / js / get?type = HSGT20_HYTJ_LS_MX & token = 894050c76af8597a853f5b408b759f5d & st = HdDate & sr = -1 & p = 1 & ps = 50 & js = var % 20kYbJeWxa = {pages: (tp), data: (x)} & filter = (ORIGINALCODE=433)
     #print(url)
-
+    print(url)
 
     for _ in range(retry_count):
         time.sleep(pause)
