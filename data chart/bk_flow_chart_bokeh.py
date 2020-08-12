@@ -30,7 +30,7 @@ output_file("lines.html")
 p = figure(title="simple line example", x_axis_label='date', y_axis_label='main_buy',plot_width=1500, plot_height=800, x_axis_type="datetime")
 
 # add a line renderer with legend and line thickness
-p.line(X_Date_value, Y_mainbuy_value, legend_label="Temp.", line_width=2)
+p.line(X_Date_value, Y_mainbuy_value, legend="Temp.", line_width=2)
 
 # show the results
 show(p)
