@@ -18,5 +18,5 @@ pd.set_option('display.width',1000)
 
 
 
-res=ts.get_nbfbk_hist_capital_flow('480')
+res=ts.get_nbfbk_hist_capital_flow('465')
 print(res)
