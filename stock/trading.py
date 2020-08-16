@@ -224,10 +224,10 @@ def get_nbfbk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
             df = pd.DataFrame(flows)
             # 提取主要数据/提取全部数据
 
-            new_order = [1,2,3, 8, 9, 10, 11, 12]
+            new_order = [1,2,3, 8, 9, 10, 11 ,13]
             df = df[df.columns[new_order]]
-            # columns = {0: "date", 11: "close", 12: "change", 1: "main_buy", 2: "main_buy_ratio", 3: "superlarge_buy", 4: "superlarge_bug_ratio",
-            #            5: "large_buy", 6: "large_buy_ratio", 7: "mid_buy", 8: "mid_buy_ratio", 9: "small_buy", 10: "small_buy_ratio"}
+            # columns = {1: "bkcode", 2: "bkname", 3: "date", 8: "zcsz", 9: "main_buy_ratio", 10: "superlarge_buy", 11: "superlarge_bug_ratio",
+            #            12: "large_buy""}
             #
             # df.rename(columns=columns, inplace=True)
 
