@@ -224,12 +224,18 @@ def get_nbfbk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
             df = pd.DataFrame(flows)
             # 提取主要数据/提取全部数据
 
-            new_order = [1,2,3, 8, 9, 10, 11 ,13]
+            #new_order = [1,2,3, 8, 9, 10, 11 ,13,27,7]
+            #df = df[df.columns[new_order]]
+            #columns = {1: "bkcode", 2: "bkname", 3: "date", 8: "zcsz", 9: "szzf", 10: "zcbkb", 11: "znzjb",13:"cgsz",27:"cgbk",7: "znzjb"}
+
+
+
+            new_order = [1,2,3, 8, 9, 10, 11 ,13,27,7]
             df = df[df.columns[new_order]]
-            # columns = {1: "bkcode", 2: "bkname", 3: "date", 8: "zcsz", 9: "main_buy_ratio", 10: "superlarge_buy", 11: "superlarge_bug_ratio",
-            #            12: "large_buy""}
-            #
-            # df.rename(columns=columns, inplace=True)
+
+            columns = {1: "bkcode", 2: "bkname", 3: "date", 8: "zcsz", 9: "szzf", 10: "zcbkb", 11: "znzjb",13:"cgsz",27:"cgbk",7: "znzjb"}
+
+            df.rename(columns=columns, inplace=True)
 
             df = df.sort_index(ascending=True)
             return df
