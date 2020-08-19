@@ -10,18 +10,17 @@ pd.set_option('display.width',1000)
 
 
 # 獲取data
-BK_Code='480'
+BK_Code='465'
 
-df_bk_hist_flow=ts.get_bk_hist_capital_flow(BK_Code)
-print(df_bk_hist_flow)
+df_nbfbk_hist_flow=ts.get_nbfbk_hist_capital_flow(BK_Code)
+print(df_nbfbk_hist_flow)
 
 
      #   設置 X,Y 的 值
-X_Date_value=df_bk_hist_flow['date']
+X_Date_value=df_nbfbk_hist_flow['date']
 X_Date_value=pd.to_datetime(X_Date_value)
 
-
-Y_mainbuy_value=df_bk_hist_flow['mainb_ratio'].astype(float)+df_bk_hist_flow['Slargeb_ratio'].astype(float)
+Y_mainbuy_value=df_nbfbk_hist_flow['znzjb'].astype(float)
 Y_mainbuy_value=Y_mainbuy_value
 
 # output to static HTML file
@@ -31,7 +30,7 @@ output_file("lines.html")
 p = figure(tools="hover,pan,box_zoom,reset,save",title="simple line example", x_axis_label='date', y_axis_label='main_buy',plot_width=1500, plot_height=800, x_axis_type="datetime")
 
 # add a line renderer with legend and line thickness
-p.line(X_Date_value, Y_mainbuy_value, legend="Temp.", line_width=2)
+p.line(X_Date_value, Y_mainbuy_value, legend_label="今日持股占北向资金比.", line_width=2)
 
 # show the results
 show(p)
