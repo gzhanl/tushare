@@ -9,7 +9,7 @@ get_hist_capital_flow
 ## 202007 新增  
 北上板块资金流       northbound-funds（北上資金）  
 http://data.eastmoney.com/bkzj/hy.html  
-
+http://data.eastmoney.com/hsgtcg/bk.html  
 获取北上板块历史资金流向（eastmoney.com）  
 get_nbfbk_hist_capital_flow('480')  
 ** 480 板块代码
