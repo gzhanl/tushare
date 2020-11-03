@@ -7,12 +7,7 @@ pd.set_option('display.max_rows',100)
 pd.set_option('display.max_columns',50)
 pd.set_option('display.width',1000)
 
-BK_Code='480'
-
-
-
-
-
+BK_Code='474'
 
 
 """
@@ -51,8 +46,23 @@ ax1.title.set_text(BK_Code + ' ' +'main_buy')
 """
 -----     AX2         ---------------------------------
 """
+#---设定AX2数据
+df_bk_hist_flow=ts.get_bk_hist_capital_flow(BK_Code)
+print(df_bk_hist_flow)
 
+    #   設置 X,Y 的 值
+X_Date_value=df_bk_hist_flow['date']
 
+Y_Buy_value =df_bk_hist_flow['mainb_ratio'].astype(float)
+
+#Y_Buy_value[0]=0
+
+   #   計算 累積淨買入
+
+data=[]
+
+for i in range(len(df_bk_hist_flow)):
+    
 
 
 

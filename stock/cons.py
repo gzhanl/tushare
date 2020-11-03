@@ -150,7 +150,9 @@ EM_NBFBKCF_URL= '%sdcfm.%s//EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYT
 """
 
 #  EM_BKCF_URL= 'http://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get?lmt=0&klt=101&secid=90.BK0735&fields1=f1,f2,f3,f7&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f62,f63,f64,f65&ut=b2884a393a59ad64002292a3e90d46a5&cb=jQuery18302960747161821411_1596801801147&_=1596801802632
-EM_BKCF_URL= '%spush2his.%s/api/qt/stock/fflow/daykline/get?lmt=0&klt=101&secid=90.BK0%s&fields1=f1,f2,f3,f7&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f62,f63,f64,f65&ut=b2884a393a59ad64002292a3e90d46a5&cb=jQuery18302960747161821411_1596801801147&_=1596801802632'  # p=1 頁數 ps=50 每頁條數
+#EM_BKCF_URL= '%spush2his.%s/api/qt/stock/fflow/daykline/get?lmt=0&klt=101&secid=90.BK0%s&fields1=f1,f2,f3,f7&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f62,f63,f64,f65&ut=b2884a393a59ad64002292a3e90d46a5&cb=jQuery18302960747161821411_1596801801147&_=1596801802632'  # p=1 頁數 ps=50 每頁條數
+
+EM_BKCF_URL= '%spush2his.%s/api/qt/stock/fflow/daykline/get?lmt=0&klt=101&secid=90.%s&fields1=f1,f2,f3,f7&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f62,f63,f64,f65&ut=b2884a393a59ad64002292a3e90d46a5&cb=jQuery18302960747161821411_1596801801147&_=1596801802632'  # p=1 頁數 ps=50 每頁條數
 
 
 
