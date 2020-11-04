@@ -230,10 +230,11 @@ def get_nbfbk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
 
 
 
-            new_order = [1,2,3, 8, 9, 10, 11 ,13,27,7]
+            new_order = [3, 2, 1, 8, 9, 10, 11 ,13,27,7]
+
             df = df[df.columns[new_order]]
 
-            columns = {1: "bkcode", 2: "bkname", 3: "date", 8: "zcsz", 9: "szzf", 10: "zcbkb", 11: "zcznzjb",13:"cgsz",27:"cgbkb",7: "znzjb"}
+            columns = {  3: "date" , 2: "bkname", 1: "bkcode",   8: "zcsz", 9: "szzf", 10: "zcbkb", 11: "zcznzjb",13:"cgsz",27:"cgbkb",7: "znzjb"}
 
             """
             zcsz:增持估计市值    szzf:增持市值增幅  zcbkb：增持占板块比  zcznzjb：增持占北向资金板块比  cgsz：今日持股市值 cgbkb：今日持股占板块比  znzjb：今日持股占北向资金比
