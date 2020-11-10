@@ -26,7 +26,7 @@ get_bk_hist_capital_flow('480')
 
 ## 202011 新增  
 北向资金增持行业板块排行  
-http://data.eastmoney.com/hsgtcg/hy.html  （獲取板塊480歷史資金流）  
+http://data.eastmoney.com/hsgtcg/hy.html  
 
 获取北向总体板块资金情况（eastmoney.com）    
 get_nbfbk_status( )   
