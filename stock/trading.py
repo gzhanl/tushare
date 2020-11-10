@@ -172,7 +172,7 @@ def get_hist_capital_flow(code=None, retry_count=3,pause=0.001):
 """
 20201109  -----------北向资金增持行业板块排行-北上资金板块总体情况---------------
 """
-def get_nbfbk_status(code=None, retry_count=2, pause=0.001):
+def get_nbfbk_status(code=None, retry_count=1, pause=0.001):
     """
         北向资金增持行业板块排行-北上资金板块总体情况   （eastmoney.com） http://data.eastmoney.com/hsgtcg/hy.html
     Parameters
