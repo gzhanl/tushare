@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="57492c4f-d526-4d6e-84f3-64ff8a34818a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stock/cons.py" beforeDir="false" afterPath="$PROJECT_DIR$/stock/cons.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stock/trading.py" beforeDir="false" afterPath="$PROJECT_DIR$/stock/trading.py" afterDir="false" />
-    </list>
+    <list default="true" id="57492c4f-d526-4d6e-84f3-64ff8a34818a" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,8 +25,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data test/NBFBKSTS_TEST.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="10" column="26" lean-forward="true" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
+            <state relative-caret-position="133">
+              <caret line="7" column="55" lean-forward="true" selection-start-line="7" selection-start-column="55" selection-end-line="7" selection-end-column="55" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -81,8 +76,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/stock/trading.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="264" column="64" selection-start-line="264" selection-start-column="64" selection-end-line="264" selection-end-column="64" />
+            <state relative-caret-position="95">
+              <caret line="263" lean-forward="true" selection-start-line="263" selection-end-line="263" />
             </state>
           </provider>
         </entry>
@@ -624,13 +619,6 @@
     <entry file="file://$PROJECT_DIR$/data test/url_testing.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/stock/cons.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="150" lean-forward="true" selection-start-line="150" selection-end-line="150" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/trader/trader.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -666,18 +654,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/data test/NBFBKSTS_TEST.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="10" column="26" lean-forward="true" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
+        <state relative-caret-position="133">
+          <caret line="7" column="55" lean-forward="true" selection-start-line="7" selection-start-column="55" selection-end-line="7" selection-end-column="55" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/stock/cons.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="150" lean-forward="true" selection-start-line="150" selection-end-line="150" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/stock/trading.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="264" column="64" selection-start-line="264" selection-start-column="64" selection-end-line="264" selection-end-column="64" />
+        <state relative-caret-position="95">
+          <caret line="263" lean-forward="true" selection-start-line="263" selection-end-line="263" />
         </state>
       </provider>
     </entry>
