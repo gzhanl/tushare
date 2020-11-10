@@ -136,6 +136,24 @@ ALL_STK_URL = '%s%s/all.csv'
 EM_HCF_URL = '%sff.%s//EM_CapitalFlowInterface/api/js?type=hff&rtntype=2&js=({data:[(x)]})&cb=var%%20aff_data=&check=TMLBMSPROCR&acces_token=1942f5da9b46b069953c873404aad4b5&id=%s'
 
 
+
+"""
+新增的url 20201110 北向资金增持行业板块排行-北上资金板块总体情况
+ # get_nbfbk_status
+"""
+#  EM_BKCF_URL='http://dcfm.eastmoney.com/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_LS_MX&token=894050c76af8597a853f5b408b759f5d&st=HdDate&sr=-1&p=1&ps=50&js=var%20kYbJeWxa={pages:(tp),data:(x)}&filter=(ORIGINALCODE=%27456%27)&rt=53158040
+# EM_NBFBKSTS_URL= '%sdcfm.%s/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_SUM&token=894050c76af8597a853f5b408b759f5d'
+
+
+#urlp1='http://dcfm.eastmoney.com/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_SUM&token=894050c76af8597a853f5b408b759f5d&st=ShareSZ_ZC&sr=-1&p=1&ps=50&js=var%20TwnWmGdX={pages:(tp),data:(x)}&filter=(DateType=%271%27)''
+EM_NBFBKSTS_URL_P1='%sdcfm.%s/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_SUM&token=894050c76af8597a853f5b408b759f5d&st=ShareSZ_ZC&sr=-1&p=1&ps=50&js=var%20TwnWmGdX={pages:(tp),data:(x)}&filter=(DateType=%271%27)'
+#EM_NBFBKSTS_URL_P1='%sdcfm.%s/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_SUM&token=894050c76af8597a853f5b408b759f5d'
+
+
+#urlp2='http://dcfm.eastmoney.com/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_SUM&token=894050c76af8597a853f5b408b759f5d&st=ShareSZ_ZC&sr=-1&p=1&ps=50&js=var%20TwnWmGdX={pages:(tp),data:(x)}&filter=(DateType=%271%27)''
+EM_NBFBKSTS_URL_P2='%sdcfm.%s/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_SUM&token=894050c76af8597a853f5b408b759f5d&st=ShareSZ_ZC&sr=-1&p=2&ps=50&js=var%20TwnWmGdX={pages:(tp),data:(x)}&filter=(DateType=%271%27)'
+
+
 """
 新增的url 20200714 北上资金板块资金流
  # get_nbfbk_capital_flow

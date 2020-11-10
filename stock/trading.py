@@ -170,7 +170,110 @@ def get_hist_capital_flow(code=None, retry_count=3,pause=0.001):
 
 
 """
-20200714  --------------------------
+20201109  -----------北向资金增持行业板块排行-北上资金板块总体情况---------------
+"""
+def get_nbfbk_status(code=None, retry_count=2, pause=0.001):
+    """
+        北向资金增持行业板块排行-北上资金板块总体情况   （eastmoney.com） http://data.eastmoney.com/hsgtcg/hy.html
+    Parameters
+    ------
+      code:string
+                  板块代码 e.g. 433
+
+      retry_count : int, 默认 3
+                 如遇网络等问题重复执行的次数
+
+      pause : int, 默认 0
+                重复请求数据过程中暂停的秒数，防止请求间隔时间太短出现的问题
+    return
+    -------
+      DataFrame
+          属性:
+        """
+    # url=''
+    #url = ct.EM_NBFBKSTS_URL % (ct.P_TYPE['http'], ct.DOMAINS['em'])
+    # url = "http://dcfm.eastmoney.com/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_LS_MX&token=894050c76af8597a853f5b408b759f5d&st=HdDate&sr=-1&p=1&ps=50&js=var%20kYbJeWxa={+pages:(tp),data:(x)}&filter=(ORIGINALCODE=" + code + " )"
+    #  http: // dcfm.eastmoney.com / EM_MutiSvcExpandInterface / api / js / get?type = HSGT20_HYTJ_SUM & token = 894050c76af8597a853f5b408b759f5d
+    # http: // dcfm.eastmoney.com / EM_MutiSvcExpandInterface / api / js / get?type = HSGT20_HYTJ_LS_MX & token = 894050c76af8597a853f5b408b759f5d & st = HdDate & sr = -1 & p = 1 & ps = 50 & js = var % 20kYbJeWxa = {pages: (tp), data: (x)} & filter = (ORIGINALCODE=433)
+    # print(url)
+
+    # url_p1=ct.EM_NBFBKSTS_URL_P1 % (ct.P_TYPE['http'], ct.DOMAINS['em'])
+    # url_p2=ct.EM_NBFBKSTS_URL_P2 % (ct.P_TYPE['http'], ct.DOMAINS['em'])
+    url_p1 = 'http://dcfm.eastmoney.com/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_SUM&token=894050c76af8597a853f5b408b759f5d&st=ShareSZ_ZC&sr=-1&p=1&ps=50&js=var%20TwnWmGdX={pages:(tp),data:(x)}&filter=(DateType=%271%27)'
+    url_p2 = 'http://dcfm.eastmoney.com/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_SUM&token=894050c76af8597a853f5b408b759f5d&st=ShareSZ_ZC&sr=-1&p=2&ps=50&js=var%20TwnWmGdX={pages:(tp),data:(x)}&filter=(DateType=%271%27)'
+
+    print(url_p1)
+    print(url_p2)
+
+    for url in [url_p1,url_p2]:
+
+        for _ in range(retry_count):
+            time.sleep(pause)
+            try:
+                r = requests.get(url)
+                # pat = "data:\[(.*?)\]"
+                pat = "\[\{(.*?)\}\]"
+                data = re.compile(pat, re.S).findall(r.text)
+
+                # datas = data[0].split('","')
+                datas = data[0].split('HYCode')
+
+                flows = []
+                for i in range(len(datas)):
+                    flow = datas[i].replace('"' , "").split(",")
+
+                    for j in range(len(flow)):
+                        flow[j] = re.sub('.*?:', '', flow[j])  # 將每行數據內容   'XXXXX:123123' >>>> '123123'
+                        flow[j] = re.sub('}', '', flow[j])  # 將每行數據內容      '去掉 } '
+                        flow[j] = re.sub('{', '', flow[j])  # 將每行數據內容      '去掉 { '
+                    flows.append(flow)
+
+                df = pd.DataFrame(flows)
+                # 提取主要数据/提取全部数据
+
+                # new_order = [1,2,3, 8, 9, 10, 11 ,13,27,7]
+                # df = df[df.columns[new_order]]
+                # columns = {1: "bkcode", 2: "bkname", 3: "date", 8: "zcsz", 9: "szzf", 10: "zcbkb", 11: "znzjb",13:"cgsz",27:"cgbk",7: "znzjb"}
+
+                #new_order = [3, 2, 1, 8, 9, 10, 11, 13, 27, 7]
+                #df = df[df.columns[new_order]]
+
+                #columns = {3: "date", 2: "bkname", 1: "bkcode", 8: "zcsz", 9: "szzf", 10: "zcbkb", 11: "zcznzjb",
+                #           13: "cgsz", 27: "cgbkb", 7: "znzjb"}
+
+                """
+                zcsz:增持估计市值    szzf:增持市值增幅  zcbkb：增持占板块比  zcznzjb：增持占北向资金板块比  cgsz：今日持股市值 cgbkb：今日持股占板块比  znzjb：今日持股占北向资金比
+                """
+                #print( "zcsz:增持估计市值    szzf:增持市值增幅  zcbkb：增持占板块比  znzjb：增持占北向资金板块比  cgsz：今日持股市值 cgbkb：今日持股占板块比  znzjb：今日持股占北向资金比")
+
+                #df.rename(columns=columns, inplace=True)
+
+                if url==url_p1:
+                    df_url_p1= df.sort_index(ascending=True)
+                    df_url_p1= df_url_p1.drop(index=0)
+                elif url==url_p2:
+                    df_url_p2=df.sort_index(ascending=True)
+                    df_url_p2 = df_url_p2.drop(index=0)
+                    #df_url_p2.set_index(drop=True)
+                #return df
+            except Exception as e:
+                print(e)
+        #raise IOError(ct.NETWORK_URL_ERROR_MSG)
+    df_total=df_url_p1.append(df_url_p2)
+    df_total=df_total.reset_index(drop=True)
+
+    new_order = [3,1,2,4, 6,13,27,7,5,8, 9, 10, 11 ,15, 28, 19, 30]
+
+    df_total = df_total[df_total.columns[new_order]]
+
+    # columns = {3: "date",1: "bkcode", 2: "bkname", 4: "Zdf", 6: "GP", 13: "zcbkb", 27: "zcznzjb", 7: "cgsz", 5: "cgbkb", 8: "znzjb"  , 9: ""  , 10: " " , 11: " " ,15: "" , }
+    # df_total.rename(columns=columns, inplace=True)
+
+    return df_total
+
+
+"""
+20200714  -----------北上资金个别板块情况---------------
 """
 def get_nbfbk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
     """
