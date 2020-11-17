@@ -13,6 +13,7 @@ from tushare.stock.trading import (get_hist_data, get_tick_data,
                                    get_nbfbk_status,                          #  20201110 北向资金增持行业板块排行-北上资金板块总体情况
                                    get_nbfbk_hist_capital_flow,               #  20200714 新增北上板块资金流
                                    get_bk_hist_capital_flow,                  #  202008  新增板块资金流
+                                   get_nf_realtime,                           #  202011  新增北向资金实时净流入
                                    get_today_all, get_realtime_quotes,
                                    get_h_data, get_today_ticks,
                                    get_index, get_hists,
