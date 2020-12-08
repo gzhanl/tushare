@@ -170,7 +170,7 @@ def get_hist_capital_flow(code=None, retry_count=3,pause=0.001):
 
 
 """
-20201109  -----------北向资金实时流入---------------
+20201109  -----------北向资金实时净买额---------------
 """
 def get_nf_realtime(code=None, retry_count=1, pause=0.001):
     """
@@ -185,7 +185,7 @@ def get_nf_realtime(code=None, retry_count=1, pause=0.001):
         return
         -------
     """
-    url = "http://push2.eastmoney.com/api/qt/kamt.rtmin/get?fields1=f1,f3&fields2=f51,f52,f54,f56"
+    url = "http://push2.eastmoney.com/api/qt/kamtbs.rtmin/get?fields1=f1,f2,f3,f4&fields2=f51,f54,f52,f58,f53,f62,f56,f57,f60,f61"
     #url=  "http: // push2.eastmoney.com / api / qt / kamt.rtmin / get?fields1 = f1, f3 & fields2 = f51, f52, f54, f56 & ut = b2884a393a59ad64002292a3e90d46a5"
 
     print(url)
@@ -198,7 +198,7 @@ def get_nf_realtime(code=None, retry_count=1, pause=0.001):
             pat = "\"s2n\":\[\"(.*?)\"\]"
             data = re.compile(pat, re.S).findall(r.text)
 
-            pat_date="s2nDate\":\"(.*?)\"\}\}"
+            pat_date="s2nDate\":\"(.*?)\""
             flow_date=re.compile(pat_date, re.S).findall(r.text)
 
 
@@ -211,7 +211,7 @@ def get_nf_realtime(code=None, retry_count=1, pause=0.001):
 
 
                 # 将 list 按每组4个分开
-                step = 4
+                step = 10
                 flows = [flow[i:i + step] for i in range(0, len(flow), step)]
 
                 # for j in range(len(flow)):
@@ -233,13 +233,101 @@ def get_nf_realtime(code=None, retry_count=1, pause=0.001):
             #            5: "今日增持股数", 8: "市值", 9: "市值增幅", 10: "今日增持占板块比",
             #            11: "今日增持占北向资金比", 15: "今日增持市值最大股", 28: "今日增持占股本比最大股", 19: "今日减持市值最大股", 30: "今日减持占股本比最大股"}
 
-            columns = {0: "time", 1: "hgt_flow", 2: "sgt_flow", 3: "north_flow"}
+            columns = {0: "time", 1: "hgt_buy", 3: "sgt_buy", 5: "north_buy"}
 
             df.rename(columns=columns, inplace=True)
 
             df = df.sort_index(ascending=True)
-            df=df.tail(5)  # 只显示最后5条记录
+            #df=df.tail(5)  # 只显示最后5条记录
             return df,flow_date[0]
+        except Exception as e:
+            print(e)
+    raise IOError(ct.NETWORK_URL_ERROR_MSG)
+
+
+"""
+20201118  -----------北向资金流入日线---------------
+"""
+def get_nf_dayline(code=None, retry_count=1, pause=0.001):
+    """
+
+        Parameters
+        ------
+          retry_count : int, 默认 3
+                     如遇网络等问题重复执行的次数
+
+          pause : int, 默认 0
+                    重复请求数据过程中暂停的秒数，防止请求间隔时间太短出现的问题
+        return
+        -------
+    """
+    url = "http://datacenter.eastmoney.com/securities/api/data/get?callback=jQuery183007875593584280427_1605796051443&type=RPT_MUTUAL_NETINFLOW_DETAILS&sty=DIRECTION_TYPE%2CTRADE_DATE%2CNET_INFLOW_SH%2CNET_INFLOW_SZ%2CNET_INFLOW_BOTH%2CTIME_TYPE&token=894050c76af8597a853f5b408b759f5d"
+    #url=  "http: // push2.eastmoney.com / api / qt / kamt.rtmin / get?fields1 = f1, f3 & fields2 = f51, f52, f54, f56 & ut = b2884a393a59ad64002292a3e90d46a5"
+
+    print(url)
+
+    for _ in range(retry_count):
+        time.sleep(pause)
+        try:
+            r = requests.get(url)
+            # pat = "data:\[(.*?)\]"
+            pat = "\"data\"(.*?)\],"
+            data = re.compile(pat, re.S).findall(r.text)
+
+            # pat_date="s2nDate\":\"(.*?)\"\}\}"
+            # flow_date=re.compile(pat_date, re.S).findall(r.text)
+
+
+            # datas = data[0].split('","')
+            # datas = data[0].split('HYCode')
+
+            flows = []
+            for i in range(len(data)):
+                flow = data[i].replace('"', "").split(",")
+                flow = data[i].replace('[{', "").split(",")
+                flow = data[i].replace('00:00:00', "").split(",")
+
+                # 将 list 按每组4个分开
+                # step = 2
+                # flows = [flow[i:i + step] for i in range(0, len(flow), step)]
+
+                for j in range(len(flow)):
+                    flow[j] = re.sub('.*?:', '', flow[j])  # 將每行數據內容   'XXXXX:123123' >>>> '123123'
+                    flow[j] = re.sub('}', '', flow[j])  # 將每行數據內容      '去掉 } '
+                    flow[j] = re.sub('{', '', flow[j])  # 將每行數據內容      '去掉 { '
+                    flow[j] = re.sub('"', '', flow[j])  # 將每行數據內容      '去掉 " '
+                # flows.append(flow)
+
+            # 将 list 按每组5个分开
+            step = 6
+            flows = [flow[i:i + step] for i in range(0, len(flow), step)]
+            df = pd.DataFrame(flows)
+            # 提取主要数据/提取全部数据
+            # df = df[df['0']=='1']
+            df = df.drop(index=0)
+
+            #new_order = [3, 1, 2, 4, 6, 13, 27, 7, 5, 8, 9, 10, 11, 15, 28, 19, 30]
+
+            #df = df[df.columns[new_order]]
+
+            # columns = {3: "日期", 1: "板块代号", 2: "板块名称", 4: "最新涨跌幅", 6: "今日持股数", 13: "今日持股市值", 27: "今日占板块比", 7: "今日占北向资金比",
+            #            5: "今日增持股数", 8: "市值", 9: "市值增幅", 10: "今日增持占板块比",
+            #            11: "今日增持占北向资金比", 15: "今日增持市值最大股", 28: "今日增持占股本比最大股", 19: "今日减持市值最大股", 30: "今日减持占股本比最大股"}
+
+
+            # TIME_TYPE=1 : 一个月    TIME_TYPE=2 ：半年   TIME_TYPE=3 ：一年     TIME_TYPE=4 ：全部
+            columns = {0: "DIRECTION_TYPE", 1: "TRADE_DATE" ,2: "NET_INFLOW_SH",3: "NET_INFLOW_SZ",4: "NET_INFLOW_BOTH",5: "TIME_TYPE"}
+
+            df.rename(columns=columns, inplace=True)
+            df = df[df['DIRECTION_TYPE']=='1']
+            df = df[df['TIME_TYPE'] == '2']
+
+            del df['DIRECTION_TYPE'],df['NET_INFLOW_SH'],df['NET_INFLOW_SZ'],df['TIME_TYPE']
+            df['NET_INFLOW_BOTH']=df['NET_INFLOW_BOTH'].astype(float)/100
+
+            df = df.sort_index(ascending=True)
+            #df=df.tail(5)  # 只显示最后5条记录
+            return df
         except Exception as e:
             print(e)
     raise IOError(ct.NETWORK_URL_ERROR_MSG)

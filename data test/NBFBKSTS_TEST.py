@@ -8,7 +8,7 @@ pd.set_option('display.unicode.ambiguous_as_wide', True)
 pd.set_option('display.unicode.east_asian_width', True)
 
 
-res=ts.get_nf_realtime( )
+res=ts.get_nf_dayline( )
 
 # res=ts.get_nbfbk_hist_capital_flow('KB477')
 print(res)

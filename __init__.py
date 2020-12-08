@@ -14,6 +14,7 @@ from tushare.stock.trading import (get_hist_data, get_tick_data,
                                    get_nbfbk_hist_capital_flow,               #  20200714 新增北上板块资金流
                                    get_bk_hist_capital_flow,                  #  202008  新增板块资金流
                                    get_nf_realtime,                           #  202011  新增北向资金实时净流入
+                                   get_nf_dayline,                            #  202011  新增北向资金净流入日线
                                    get_today_all, get_realtime_quotes,
                                    get_h_data, get_today_ticks,
                                    get_index, get_hists,
