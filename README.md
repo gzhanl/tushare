@@ -30,3 +30,11 @@ http://data.eastmoney.com/hsgtcg/hy.html
 
 获取北向总体板块资金情况（eastmoney.com）    
 get_nbfbk_status( )   
+
+
+## 20201213 新增  
+板块个股资金流（当日）
+http://data.eastmoney.com/bkzj/BK0433.html  （獲取板塊433个股資金流）  
+
+获取板块历史资金流向（eastmoney.com）    
+get_bk_stock_capital_flow('480')      
