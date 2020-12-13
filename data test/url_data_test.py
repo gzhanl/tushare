@@ -14,5 +14,7 @@ pd.set_option('display.unicode.east_asian_width', True)
 pd.set_option('expand_frame_repr', False)
 
 
-res=ts.get_nf_dayline()
+res=ts.get_bk_stock_capital_flow('BK0451')
+
+
 print(res)

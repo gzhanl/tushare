@@ -166,11 +166,16 @@ EM_NBFBKCF_URL= '%sdcfm.%s//EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYT
 新增的url 202008 板块资金流
  # get_bk_hist_capital_flow
 """
-
-#  EM_BKCF_URL= 'http://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get?lmt=0&klt=101&secid=90.BK0735&fields1=f1,f2,f3,f7&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f62,f63,f64,f65&ut=b2884a393a59ad64002292a3e90d46a5&cb=jQuery18302960747161821411_1596801801147&_=1596801802632
-#EM_BKCF_URL= '%spush2his.%s/api/qt/stock/fflow/daykline/get?lmt=0&klt=101&secid=90.BK0%s&fields1=f1,f2,f3,f7&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f62,f63,f64,f65&ut=b2884a393a59ad64002292a3e90d46a5&cb=jQuery18302960747161821411_1596801801147&_=1596801802632'  # p=1 頁數 ps=50 每頁條數
-
 EM_BKCF_URL= '%spush2his.%s/api/qt/stock/fflow/daykline/get?lmt=0&klt=101&secid=90.%s&fields1=f1,f2,f3,f7&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f62,f63,f64,f65&ut=b2884a393a59ad64002292a3e90d46a5&cb=jQuery18302960747161821411_1596801801147&_=1596801802632'  # p=1 頁數 ps=50 每頁條數
+
+
+"""
+新增的url 202012 板块个股资金流
+ # get_bk_stock_capital_flow
+"""
+# url='http://push2.eastmoney.com/api/qt/clist/get?pn=1&pz=50&po=1&np=1&ut=b2884a393a59ad64002292a3e90d46a5&fltt=2&invt=2&fid=f62&fs=b:BK0474&stat=1&fields=f12,f14,f2,f3,f62,f184,f66,f69,f72,f75,f78,f81,f84,f87,f204,f205,f124&rt=53589883&cb=jQuery183005373396963291044_1607696517617&_=1607696518404'
+EM_BKSCF_URL= '%spush2.%s/api/qt/clist/get?pn=1&pz=200&po=1&np=1&ut=b2884a393a59ad64002292a3e90d46a5&fltt=2&invt=2&fid=f62&fs=b:%s&stat=1&fields=f12,f14,f2,f3,f62,f184,f66,f69,f72,f75,f78,f81,f84,f87,f204,f205,f124'
+
 
 
 

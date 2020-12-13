@@ -298,9 +298,10 @@ def get_nf_dayline(code=None, retry_count=1, pause=0.001):
                     flow[j] = re.sub('"', '', flow[j])  # 將每行數據內容      '去掉 " '
                 # flows.append(flow)
 
-            # 将 list 按每组5个分开
+            # 将 list 按每组6个分开
             step = 6
             flows = [flow[i:i + step] for i in range(0, len(flow), step)]
+
             df = pd.DataFrame(flows)
             # 提取主要数据/提取全部数据
             # df = df[df['0']=='1']
@@ -496,7 +497,7 @@ def get_nbfbk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
 
 
 """
-202008 --------------------------
+202008 ---------板块历史资金流-----------------
 """
 def get_bk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
     """
@@ -564,6 +565,78 @@ def get_bk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
 
             df = df.sort_index(ascending=False)
             df = df.sort_index(ascending=True)
+            return df
+        except Exception as e:
+            print(e)
+    raise IOError(ct.NETWORK_URL_ERROR_MSG)
+
+"""
+202012 ---------板块个股资金流-----------------
+"""
+def get_bk_stock_capital_flow(code=None, retry_count=3, pause=0.001):
+    """
+        获取板块个股资金流向    （eastmoney.com） http://data.eastmoney.com/bkzj/BK0474.html
+    Parameters
+    ------
+      code:string
+                  板块代码 e.g. 433
+
+      retry_count : int, 默认 3
+                 如遇网络等问题重复执行的次数
+
+      pause : int, 默认 0
+                重复请求数据过程中暂停的秒数，防止请求间隔时间太短出现的问题
+    return
+    -------
+      DataFrame
+          属性:
+        """
+
+    url = ct.EM_BKSCF_URL % (ct.P_TYPE['http'], ct.DOMAINS['em'], code)
+
+    print(url)
+
+    for _ in range(retry_count):
+        time.sleep(pause)
+        try:
+            r = requests.get(url)
+            # pat = "data:\[\{(.*?)\]\}"
+            pat = ":\[\{(.*?)\}\]\}\}"
+            data = re.compile(pat, re.S).findall(r.text)
+
+            #datas = data[0].split('f2"')
+            datas=data
+
+            flows = []
+            for i in range(len(datas)):
+                datas[i] = datas[i].replace('\'', "")
+                flow = datas[i].replace('"', "").split(",")
+                for j in range(len(flow)):
+                    flow[j] = re.sub( '.*?:' , '' ,flow[j])   # 將每行數據內容   'XXXXX:123123' >>>> '123123'
+                    flow[j] = re.sub('}', '', flow[j])  # 將每行數據內容      '去掉 } '
+                flows.append(flow)
+
+
+
+                # 将 list 按每组6个分开
+            step = 18
+            flows_List = [flows[0][i:i + step] for i in range(0, len(flows[0]), step)]
+
+
+            df = pd.DataFrame(flows_List)
+            # 提取主要数据/提取全部数据
+
+            new_order = [2, 3, 0, 1, 4, 14, 5, 6, 7, 8, 9, 10, 11, 12 ]
+            df = df[df.columns[new_order]]
+
+            columns = {2: "S_Code", 3: "S_Name", 0: "Price", 1: "Chang", 4: "Main_Buy", 14: "Main_Buy_Ratio",
+                       5: "SL_Buy", 6: "SL_Buy_Ratio", 7: "Large_Buy", 8: "LBuy_Ratio", 9: "Mid_Buy", 10: "MB_Ratio" ,11: "Small_Buy",12: "SBuy_Ratio"}
+
+
+            df.rename(columns=columns, inplace=True)
+
+            # df = df.sort_index(ascending=False)
+            # df = df.sort_index(ascending=True)
             return df
         except Exception as e:
             print(e)

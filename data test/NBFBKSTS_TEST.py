@@ -10,7 +10,7 @@ pd.set_option('display.unicode.east_asian_width', True)
 
 res=ts.get_nf_dayline( )
 
-# res=ts.get_nbfbk_hist_capital_flow('KB477')
+res=ts.get_nbfbk_status()
 print(res)
 
 # print(res[0])
