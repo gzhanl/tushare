@@ -403,7 +403,7 @@ def get_nbfbk_status(code=None, retry_count=1, pause=0.001):
 
             df = df[df.columns[new_order]]
 
-            columns = {3: "Date",1: "BK_Code", 2: "BK_Name", 4: "最新涨跌幅", 6: "今日持股数", 13: "今日持股市值", 27: "今日占板块比", 7: "今日占北向资金比", 5: "今日增持股数", 8: "市值"  , 9: "市值增幅"  , 10: "今日增持占板块比" ,
+            columns = {3: "Date",1: "BK_Code", 2: "BK_Name", 4: "Change", 6: "today_stock_count", 13: "今日持股市值", 27: "今日占板块比", 7: "今日占北向资金比", 5: "今日增持股数", 8: "市值"  , 9: "市值增幅"  , 10: "今日增持占板块比" ,
                    11: "今日增持占北向资金比" , 15: "今日增持市值最大股" ,28:"今日增持占股本比最大股" ,19: "今日减持市值最大股",30:"今日减持占股本比最大股" }
             df.rename(columns=columns, inplace=True)
 
@@ -417,7 +417,7 @@ def get_nbfbk_status(code=None, retry_count=1, pause=0.001):
 """
 20200714  -----------北上资金个别板块情况---------------
 """
-def get_nbfbk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
+def get_nbfbk_hist_capital_flow(code=None, retry_count=2,pause=0.001):
     """
         获取北上板块历史资金流向    （eastmoney.com） http://data.eastmoney.com/hsgtcg/BK0456.html
     Parameters
