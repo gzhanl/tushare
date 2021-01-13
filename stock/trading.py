@@ -403,8 +403,9 @@ def get_nbfbk_status(code=None, retry_count=1, pause=0.001):
 
             df = df[df.columns[new_order]]
 
-            columns = {3: "Date",1: "BK_Code", 2: "BK_Name", 4: "Change", 6: "today_stock_count", 13: "今日持股市值", 27: "今日占板块比", 7: "今日占北向资金比", 5: "今日增持股数", 8: "市值"  , 9: "市值增幅"  , 10: "今日增持占板块比" ,
-                   11: "今日增持占北向资金比" , 15: "今日增持市值最大股" ,28:"今日增持占股本比最大股" ,19: "今日减持市值最大股",30:"今日减持占股本比最大股" }
+            columns = {3: "Date",1: "BK_Code", 2: "BK_Name", 4: "Change", 6: "td_stock_count", 13: "td_shareholding_value", 27: "td_bk_ratio", 7: "td_nf_ratio",
+                       5: "td_increase_stock_count", 8: "td_increase_shareholding_value"  , 9: "Value_Change"  , 10: "td_increase_bk_ratio" ,
+                       11: "td_increase_nf_ratio" , 15: "td_increase_max_value_stock" ,28:"td_increase_max_ratio_stock" ,19: "td_reduce_max_value_stock",30:"td_reduce_max_ratio_stock" }
             df.rename(columns=columns, inplace=True)
 
             df = df.sort_index(ascending=True)
