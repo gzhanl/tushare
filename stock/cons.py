@@ -156,7 +156,7 @@ EM_NBFBKSTS_URL='%sdcfm.%s/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ
  # get_nbfbk_capital_flow
 """
 #  EM_BKCF_URL='http://dcfm.eastmoney.com/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_LS_MX&token=894050c76af8597a853f5b408b759f5d&st=HdDate&sr=-1&p=1&ps=50&js=var%20kYbJeWxa={pages:(tp),data:(x)}&filter=(ORIGINALCODE=%27456%27)&rt=53158040
-EM_NBFBKCF_URL= '%sdcfm.%s//EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_LS_MX&token=894050c76af8597a853f5b408b759f5d&st=HdDate&sr=-1&p=1&ps=150&js=var%%20kYbJeWxa={pages:(tp),data:(x)}&filter=(ORIGINALCODE=%s)'  # p=1 頁數 ps=50 每頁條數
+EM_NBFBKCF_URL= '%sdcfm.%s//EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_LS_MX&token=894050c76af8597a853f5b408b759f5d&st=HdDate&sr=-1&p=1&ps=400&js=var%%20kYbJeWxa={pages:(tp),data:(x)}&filter=(ORIGINALCODE=%s)'  # p=1 頁數 ps=50 每頁條數
 
 
 """

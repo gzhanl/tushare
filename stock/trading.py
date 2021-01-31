@@ -16,7 +16,8 @@ import lxml.html
 from lxml import etree
 import pandas as pd
 import numpy as np
-import datetime
+import datetime as dt
+from datetime import datetime as dtdt
 from tushare.stock import cons as ct
 import re
 from tushare.util import dateu as du
@@ -642,6 +643,258 @@ def get_bk_stock_capital_flow(code=None, retry_count=3, pause=0.001):
         except Exception as e:
             print(e)
     raise IOError(ct.NETWORK_URL_ERROR_MSG)
+
+
+"""
+202101 ---------沪港通和深港通当日持股紀錄-----------------
+"""
+def get_Stock_HK_Shareholding_Today(code=None, retry_count=3, pause=0.001):
+    """
+        获取沪港通和深港通当日持股紀錄   （eastmoney.com） http://data.eastmoney.com/bkzj/BK0474.html
+    Parameters
+    ------
+      code:string
+                  板块代码 e.g. 433
+
+      retry_count : int, 默认 3
+                 如遇网络等问题重复执行的次数
+
+      pause : int, 默认 0
+                重复请求数据过程中暂停的秒数，防止请求间隔时间太短出现的问题
+    return
+    -------
+      DataFrame
+          属性:
+        """
+
+    url_sh = 'https://www.hkexnews.hk/sdw/search/mutualmarket_c.aspx?t=sh'  # 滬股通
+
+    url_sz = 'https://www.hkexnews.hk/sdw/search/mutualmarket_c.aspx?t=sz'  # 深股通
+
+    today_date = dtdt.today().strftime('%Y%m%d')
+
+    my_header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'}  # my browser
+
+    res_all=''
+
+    for _ in range(retry_count):
+        time.sleep(pause)
+        try:
+            for url in [url_sh, url_sz]:
+                post_data = {
+                    '__VIEWSTATE': '/wEPDwUJNjIxMTYzMDAwZGQ79IjpLOM+JXdffc28A8BMMA9+yg==',
+                    '__VIEWSTATEGENERATOR': 'EC4ACD6F',
+                    '__EVENTVALIDATION': '/wEdAAdtFULLXu4cXg1Ju23kPkBZVobCVrNyCM2j+bEk3ygqmn1KZjrCXCJtWs9HrcHg6Q64ro36uTSn/Z2SUlkm9HsG7WOv0RDD9teZWjlyl84iRMtpPncyBi1FXkZsaSW6dwqO1N1XNFmfsMXJasjxX85jz8PxJxwgNJLTNVe2Bh/bcg5jDf8=',
+                    'today': today_date,
+                    'sortBy': 'stockcode',
+                    'sortDirection': 'asc',
+                    'alertMsg': '',
+                    'txtShareholdingDate': '',
+                    'btnSearch': '搜尋'
+                }
+
+                res = requests.get(url, data=post_data, headers=my_header, timeout=10).text
+
+                res_all = res_all + res
+
+            #datas = data[0].split('f2"')
+            Date_Shareholding =re.findall('<span style="text-decoration:underline;">持股日期:(.*?)</span>',res_all,re.S)
+            data= re.findall('<div class="mobile-list-body">(.*?)</div>',res_all,re.S)
+
+            # 将 list 按每组4个分开
+            step = 4
+            flows = [data[i:i + step] for i in range(0, len(data), step)]
+
+
+            # 去除 % 符号
+            for flow in flows:
+                flow[3] = flow[3].replace('%', "")
+
+
+            # 提取主要数据/提取全部数据
+
+            df = pd.DataFrame(flows)
+
+            df.insert(0, 'Date',Date_Shareholding[0])
+
+            columns = {0: "Stock_Code", 1: "Stock_Name", 2: "Shareholding", 3: "Shareholding_Percent"}
+
+            df.rename(columns=columns, inplace=True)
+
+
+
+            # df = df.sort_index(ascending=False)
+            # df = df.sort_index(ascending=True)
+            return df                # df=get_Stock_HK_Shareholding_Today[0]    Date_Shareholding=get_Stock_HK_Shareholding_Today[1][0]
+        except Exception as e:
+            print(e)
+    raise IOError(ct.NETWORK_URL_ERROR_MSG)
+
+
+
+
+"""
+202101 ---------沪港通和深港通持股紀錄-----------------
+"""
+def get_All_Stock_HK_Shareholding_Hist(code=None, retry_count=3, pause=0.001):
+    """
+        获取沪港通和深港通个股持股紀錄   （eastmoney.com） http://data.eastmoney.com/bkzj/BK0474.html
+    Parameters
+    ------
+      code:string
+                  板块代码 e.g. 433
+
+      retry_count : int, 默认 3
+                 如遇网络等问题重复执行的次数
+
+      pause : int, 默认 0
+                重复请求数据过程中暂停的秒数，防止请求间隔时间太短出现的问题
+    return
+    -------
+      DataFrame
+          属性:
+        """
+
+    url_sh = 'https://www.hkexnews.hk/sdw/search/mutualmarket_c.aspx?t=sh'  # 滬股通
+
+    url_sz = 'https://www.hkexnews.hk/sdw/search/mutualmarket_c.aspx?t=sz'  # 深股通
+
+    # today_date = dtdt.today().strftime('%Y%m%d')
+    today_date = dtdt.today()
+    print(today_date)
+    start_date=(today_date+dt.timedelta(days=-1)).strftime('%Y%m%d')
+    
+    print(start_date)  # yyyymmdd
+
+    dates=[]
+    for i in range(1, 10):
+        day = dtdt.today() - dt.timedelta(days=i)
+        date_to = dtdt(day.year, day.month, day.day).strftime('%Y/%m/%d')
+        # date_to = datetime.datetime(day.year, day.month, day.day)
+        dates.append(date_to)
+    
+    dates.reverse()
+    print(dates)
+    # dates = ['2021/01/23','2021/01/25']
+
+    my_header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'}  # my browser
+
+    res=''
+    res_all=''
+    dfs = {}
+    df_list = []
+    df = pd.DataFrame(columns=[ '0', '1', '2','3'])
+
+    for _ in range(retry_count):
+        time.sleep(pause)
+        try:
+
+            for date,i in zip(dates,range(len(dates))):
+
+                 for url in [url_sh, url_sz]:
+
+
+                    post_data = {
+                        '__VIEWSTATE': '/wEPDwUJNjIxMTYzMDAwZGQ79IjpLOM+JXdffc28A8BMMA9+yg==',
+                        '__VIEWSTATEGENERATOR': 'EC4ACD6F',
+                        '__EVENTVALIDATION': '/wEdAAdtFULLXu4cXg1Ju23kPkBZVobCVrNyCM2j+bEk3ygqmn1KZjrCXCJtWs9HrcHg6Q64ro36uTSn/Z2SUlkm9HsG7WOv0RDD9teZWjlyl84iRMtpPncyBi1FXkZsaSW6dwqO1N1XNFmfsMXJasjxX85jz8PxJxwgNJLTNVe2Bh/bcg5jDf8=',
+                        'today': today_date,
+                        'sortBy': 'stockcode',
+                        'sortDirection': 'asc',
+                        'alertMsg': '',
+                        'txtShareholdingDate': date,
+                        'btnSearch': '搜尋'
+                    }
+
+                    res = requests.post(url, data=post_data, headers=my_header, timeout=(5,10)).text
+
+                    res_all = res_all + res
+
+                    #datas = data[0].split('f2"')
+                 Date_Shareholding =re.findall('<span style="text-decoration:underline;">持股日期:(.*?)</span>',res_all,re.S)
+                 data= re.findall('<div class="mobile-list-body">(.*?)</div>',res_all,re.S)
+
+                 # 将 list 按每组4个分开
+                 step = 4
+                 flows = [data[i:i + step] for i in range(0, len(data), step)]
+
+                 # 去除 % 符号
+                 for flow in flows:
+                     flow[3] = flow[3].replace('%', "")
+
+
+
+                 # locals()['df' + str(i)]
+                 dfs['df_{}'.format(i)] = pd.DataFrame(flows)
+                 # print(df0)
+                 # temp = pd.DataFrame(flows)
+
+                 dfs['df_{}'.format(i)].insert(0, 'Date',Date_Shareholding[0])
+                
+                
+                 # 清空这一轮日期的数据
+                 res = ''
+                 res_all = ''
+                 # print(dfs['df_{}'.format(i)])
+        
+                # 将所有 DF 加入 list 中 
+                 df_list.append(dfs['df_{}'.format(i)])
+                 # df=pd.concat(dfs['df_{}'.format(i)])
+                 # print(df)
+                 # time.sleep(0.1)
+
+            # print(df_list)
+            # print(type(df_list))
+            
+
+            df = pd.concat( df_list )
+
+            # df=dfs['df_0'].append(dfs['df_1'])
+
+            # df=pd.concat( [ df,dfs['df_0'] ]   )
+
+            # df = pd.concat([ dfs['df_0'], dfs['df_1'], dfs['df_2'], dfs['df_3'], dfs['df_4'] ])  # correct format
+            columns = {0: "Stock_Code", 1: "Stock_Name", 2: "Shareholding", 3: "Shareholding_Percent"}
+
+            df.rename(columns=columns, inplace=True)
+
+            # df = df.sort_index(ascending=False)
+            # df = df.sort_index(ascending=True)
+            return df                # df=get_Stock_HK_Shareholding_Today[0]    Date_Shareholding=get_Stock_HK_Shareholding_Today[1][0]
+        except Exception as e:
+            print(e)
+    raise IOError(ct.NETWORK_URL_ERROR_MSG)
+
+
+
+#get_Stock_HK_Shareholding_Hist
+"""
+202101 ---------沪港通和深港通个股持股紀錄-----------------
+"""
+
+
+def get_Stock_HK_Shareholding_Hist(code=None, retry_count=3, pause=0.001):
+    """
+        获取沪港通和深港通个股持股紀錄   （eastmoney.com） http://data.eastmoney.com/bkzj/BK0474.html
+    Parameters
+    ------
+      code:string
+                  板块代码 e.g. 433
+
+      retry_count : int, 默认 3
+                 如遇网络等问题重复执行的次数
+
+      pause : int, 默认 0
+                重复请求数据过程中暂停的秒数，防止请求间隔时间太短出现的问题
+    return
+    -------
+      DataFrame
+          属性:
+        """
+    stock_code=''
+    df=get_All_Stock_HK_Shareholding_Hist()
+    df=df[stock_code]
+
 
 
 

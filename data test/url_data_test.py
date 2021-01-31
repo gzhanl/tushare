@@ -14,7 +14,8 @@ pd.set_option('display.unicode.east_asian_width', True)
 pd.set_option('expand_frame_repr', False)
 
 
-res=ts.get_bk_stock_capital_flow('BK0451')
+res=ts.get_Stock_HK_Shareholding_Hist()
 
+res.to_csv('C:\\Users\\DELL\\Desktop\\Data_Web\\沪深股通持股记录多日.csv')
 
 print(res)
