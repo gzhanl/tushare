@@ -17,8 +17,9 @@ from tushare.stock.trading import (get_hist_data, get_tick_data,
                                    get_nf_realtime,                           #  202011  新增北向资金实时净流入
                                    get_nf_dayline,                            #  202011  新增北向资金净流入日线
                                    get_Stock_HK_Shareholding_Today,           #  202101  沪港通和深港通最新持股紀錄
-                                   get_All_Stock_HK_Shareholding_Hist,            #  202101  沪港通和深港通持股紀錄
-                                   get_Stock_HK_Shareholding_Hist,            #  202101  沪港通和深港通个股持股紀錄
+                                   get_All_Stock_HK_Shareholding_Hist,        #  202101  沪港通和深港通持股紀錄
+                                   get_Stock_HK_Shareholding_Hist,            #  202101  沪港通和深港通个股持股紀錄，按照设定日数向前读取全部数据
+                                   get_All_Stock_HK_Shareholding_Hist_CSV,    #  202102  沪港通和深港通个股持股紀錄,增量更新csv,并读取csv数据
                                    get_today_all, get_realtime_quotes,
                                    get_h_data, get_today_ticks,
                                    get_index, get_hists,
