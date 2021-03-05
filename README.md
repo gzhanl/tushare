@@ -38,3 +38,10 @@ http://data.eastmoney.com/bkzj/BK0433.html  （獲取板塊433个股資金流）
 
 获取板块历史资金流向（eastmoney.com）    
 get_bk_stock_capital_flow('480')      
+
+
+## 202102 新增  
+滬深港通個股佔比     
+https://www2.hkexnews.hk/shareholding-disclosures/stock-connect-shareholding?sc_lang=zh-hk
+    
+get_All_Stock_HK_Shareholding_Hist_CSV    
