@@ -371,7 +371,7 @@ def get_nbfbk_status(code=None, retry_count=3, pause=0.001):
     url = "http://dcfm.eastmoney.com/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_SUM&token=894050c76af8597a853f5b408b759f5d&st=ShareSZ_ZC&sr=-1&p=1&ps=100&js=var%20yQYGAVxG={pages:(tp),data:(x)}&filter=(DateType=%271%27)"
 
 
-    print(url)
+    # print(url)
 
 
     for _ in range(retry_count):
@@ -444,8 +444,8 @@ def get_nbfbk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
     #url = "http://dcfm.eastmoney.com/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_HYTJ_LS_MX&token=894050c76af8597a853f5b408b759f5d&st=HdDate&sr=-1&p=1&ps=50&js=var%20kYbJeWxa={+pages:(tp),data:(x)}&filter=(ORIGINALCODE=" + code + " )"
 
     #http: // dcfm.eastmoney.com / EM_MutiSvcExpandInterface / api / js / get?type = HSGT20_HYTJ_LS_MX & token = 894050c76af8597a853f5b408b759f5d & st = HdDate & sr = -1 & p = 1 & ps = 50 & js = var % 20kYbJeWxa = {pages: (tp), data: (x)} & filter = (ORIGINALCODE=433)
-    #print(url)
-    print(url)
+
+    # print(url)
 
     for _ in range(retry_count):
         time.sleep(pause)
@@ -535,7 +535,7 @@ def get_bk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
 
 
     #http: // dcfm.eastmoney.com / EM_MutiSvcExpandInterface / api / js / get?type = HSGT20_HYTJ_LS_MX & token = 894050c76af8597a853f5b408b759f5d & st = HdDate & sr = -1 & p = 1 & ps = 50 & js = var % 20kYbJeWxa = {pages: (tp), data: (x)} & filter = (ORIGINALCODE=433)
-    print(url)
+    # print(url)
 
 
     for _ in range(retry_count):
@@ -597,7 +597,7 @@ def get_bk_stock_capital_flow(code=None, retry_count=3, pause=0.001):
 
     url = ct.EM_BKSCF_URL % (ct.P_TYPE['http'], ct.DOMAINS['em'], code)
 
-    print(url)
+    # print(url)
 
     for _ in range(retry_count):
         time.sleep(pause)
@@ -762,10 +762,10 @@ def get_All_Stock_HK_Shareholding_Hist(code=None, retry_count=3, pause=0.001):
 
     # today_date = dtdt.today().strftime('%Y%m%d')
     today_date = dtdt.today()
-    print(today_date)
+    # print(today_date)
     start_date=(today_date+dt.timedelta(days=-1)).strftime('%Y%m%d')
     
-    print(start_date)  # yyyymmdd
+    # print(start_date)  # yyyymmdd
 
     # 爬取350日數據
     dates=[]
@@ -776,7 +776,7 @@ def get_All_Stock_HK_Shareholding_Hist(code=None, retry_count=3, pause=0.001):
         dates.append(date_to)
     
     dates.reverse()
-    print(dates)
+    # print(dates)
     # dates = ['2021/01/23','2021/01/25']
 
     my_header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'}  # my browser
@@ -896,7 +896,7 @@ def get_All_Stock_HK_Shareholding_Hist_CSV(code=None, retry_count=3, pause=0.001
 
     # today_date = dtdt.today().strftime('%Y%m%d')
     today_date = dtdt.today()
-    print(today_date)
+    # print(today_date)
     # start_date = (today_date + dt.timedelta(days=-1)).strftime('%Y%m%d')
     #
     # print(start_date)  # yyyymmdd
@@ -923,9 +923,9 @@ def get_All_Stock_HK_Shareholding_Hist_CSV(code=None, retry_count=3, pause=0.001
     #         break
 
     Date_Shareholding = get_Stock_HK_Shareholding_Today().iloc[0,0]
-    print(Date_Shareholding)
+    # print(Date_Shareholding)
     Date_Shareholding = dtdt.strptime(str.strip(Date_Shareholding) ,'%Y/%m/%d')
-    print(Date_Shareholding)
+    # print(Date_Shareholding)
 
     # Date_Shareholding= (dtdt.today() + dt.timedelta(days=-1)).strftime('%Y/%m/%d')
     # Date_Shareholding = dtdt.strptime(str.strip(Date_Shareholding), '%Y/%m/%d')
@@ -944,13 +944,13 @@ def get_All_Stock_HK_Shareholding_Hist_CSV(code=None, retry_count=3, pause=0.001
         # 开始日期是 date_csv 后一日
         date_begin = (date_csv + dt.timedelta(days=1)).strftime('%Y/%m/%d')
         date_begin = dtdt.strptime(str.strip(date_begin), '%Y/%m/%d')
-        print(date_begin)
+        # print(date_begin)
 
         while date_begin <= Date_Shareholding:
               date_str = date_begin.strftime('%Y/%m/%d')
               dates.append(date_str)
               date_begin += dt.timedelta(days=1)
-        print(dates)
+        # print(dates)
         # for i in range(1, 350):
         #     day = dtdt.today() - dt.timedelta(days=i)
         #     date_to = dtdt(day.year, day.month, day.day).strftime('%Y/%m/%d')
@@ -1081,7 +1081,14 @@ def get_Stock_HK_Shareholding_Hist(code=None, retry_count=3, pause=0.001):
     df=get_All_Stock_HK_Shareholding_Hist()
     df=df[stock_code]
 
+def get_All_nbfbk_trends():
 
+    
+
+
+
+
+    return 0
 
 
 
