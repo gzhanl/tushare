@@ -9,6 +9,7 @@ Created on 2014/07/31
 from __future__ import division
 
 import requests
+from fake_useragent import UserAgent
 
 import time
 import json
@@ -35,6 +36,13 @@ if int(v.split('.')[1])>=25:
     from io import StringIO
 else:    
     from pandas.compat import StringIO
+
+ua = UserAgent()
+# user_agent = ua.random
+# my_header = {'user-agent': user_agent}
+
+
+# my_header = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'}  # my browser
 
 def get_hist_data(code=None, start=None, end=None,
                   ktype='D', retry_count=3,
@@ -144,7 +152,12 @@ def get_hist_capital_flow(code=None, retry_count=3,pause=0.001):
     for _ in range(retry_count):
         time.sleep(pause)
         try:
-            r = requests.get(url)
+
+            user_agent = ua.random
+            my_header = {'user-agent': user_agent}
+
+            # r = requests.get(url)
+            r = requests.get(url, headers=my_header)
             pat = "data:\[\[(.*?)\]"
             data = re.compile(pat, re.S).findall(r.text)
 
@@ -195,7 +208,11 @@ def get_nf_realtime(code=None, retry_count=1, pause=0.001):
     for _ in range(retry_count):
         time.sleep(pause)
         try:
-            r = requests.get(url)
+
+            user_agent = ua.random
+            my_header = {'user-agent': user_agent}
+            # r = requests.get(url)
+            r = requests.get(url, headers=my_header)
             # pat = "data:\[(.*?)\]"
             pat = "\"s2n\":\[\"(.*?)\"\]"
             data = re.compile(pat, re.S).findall(r.text)
@@ -271,7 +288,12 @@ def get_nf_dayline(code=None, retry_count=1, pause=0.001):
     for _ in range(retry_count):
         time.sleep(pause)
         try:
-            r = requests.get(url)
+
+            user_agent = ua.random
+            my_header = {'user-agent': user_agent}
+
+            # r = requests.get(url)
+            r = requests.get(url, headers=my_header)
             # pat = "data:\[(.*?)\]"
             pat = "\"data\"(.*?)\],"
             data = re.compile(pat, re.S).findall(r.text)
@@ -377,7 +399,11 @@ def get_nbfbk_status(code=None, retry_count=3, pause=0.001):
     for _ in range(retry_count):
         time.sleep(pause)
         try:
-            r = requests.get(url)
+
+            user_agent = ua.random
+            my_header = {'user-agent': user_agent}
+            # r = requests.get(url)
+            r = requests.get(url, headers=my_header)
             # pat = "data:\[(.*?)\]"
             pat = "\[\{(.*?)\}\]"
             data = re.compile(pat, re.S).findall(r.text)
@@ -450,7 +476,12 @@ def get_nbfbk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
     for _ in range(retry_count):
         time.sleep(pause)
         try:
-            r = requests.get(url)
+
+            user_agent = ua.random
+            my_header = {'user-agent': user_agent}
+            print(my_header)
+            # r = requests.get(url)
+            r = requests.get(url, headers=my_header)
             pat = "data:\[\{(.*?)\]\}"
             data = re.compile(pat, re.S).findall(r.text)
 
@@ -499,6 +530,172 @@ def get_nbfbk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
     raise IOError(ct.NETWORK_URL_ERROR_MSG)
 
 
+
+def get_nbfbk_hist_capital_flow_CSV(code=None, retry_count=3,pause=0.001):
+
+    # code=bk_code_no
+    file_name=str(code) + '_nfbk.xlsx'
+    # 获取csv最后日期
+    # df_csv = pd.read_csv('C:\\Users\\DELL\\Desktop\\ST_Web_App\\Data\\沪深股通持股记录多日.csv')
+    df_csv = pd.read_excel('C:\\Users\\DELL\\Desktop\\ST_Web_App\\Data\\Industry_data\\' + file_name)
+
+    date_csv = str.strip(df_csv.iloc[0, 0])
+    print(date_csv)
+    # date_csv = df_csv.iloc[2, 0]
+    date_csv = dtdt.strptime(date_csv, '%Y/%m/%d')
+    print(date_csv)
+
+    df_realtime=ts.get_nbfbk_hist_capital_flow(code=code, retry_count=3,pause=0.001)
+
+    print(df_realtime)
+    # print(date_csv)
+
+    # 通过 request 获取网站的 Date_Shareholding ，有时可能会获取不了
+
+    # for i in range(0, 3):
+    #         try:
+    #             Date_Shareholding = get_Stock_HK_Shareholding_Today().iloc[0,0]
+    #             print(Date_Shareholding)
+    #             Date_Shareholding = dtdt.strptime(str.strip(Date_Shareholding) ,'%Y/%m/%d')
+    #             print(Date_Shareholding)
+    #             break
+    #         except Exception as e :
+    #             print(e)
+    #             continue
+    #         break
+
+    Date_Shareholding = get_Stock_HK_Shareholding_Today().iloc[0, 0]
+    # print(Date_Shareholding)
+    Date_Shareholding = dtdt.strptime(str.strip(Date_Shareholding), '%Y/%m/%d')
+    # print(Date_Shareholding)
+
+    # Date_Shareholding= (dtdt.today() + dt.timedelta(days=-1)).strftime('%Y/%m/%d')
+    # Date_Shareholding = dtdt.strptime(str.strip(Date_Shareholding), '%Y/%m/%d')
+    # print(Date_Shareholding)
+
+    if date_csv == Date_Shareholding:
+        print('Get data from CSV')
+        return df_csv
+
+    elif date_csv < Date_Shareholding:
+
+        # 获取两个日期之间的日期
+        dates = []
+        # date_begin=date_csv
+
+        # 开始日期是 date_csv 后一日
+        date_begin = (date_csv + dt.timedelta(days=1)).strftime('%Y/%m/%d')
+        date_begin = dtdt.strptime(str.strip(date_begin), '%Y/%m/%d')
+        # print(date_begin)
+
+        while date_begin <= Date_Shareholding:
+            date_str = date_begin.strftime('%Y/%m/%d')
+            dates.append(date_str)
+            date_begin += dt.timedelta(days=1)
+        # print(dates)
+        # for i in range(1, 350):
+        #     day = dtdt.today() - dt.timedelta(days=i)
+        #     date_to = dtdt(day.year, day.month, day.day).strftime('%Y/%m/%d')
+        #     # date_to = datetime.datetime(day.year, day.month, day.day)
+        #     dates.append(date_to)
+
+        # dates.reverse() # 將 日期 list 反轉
+        # print(dates)
+        # dates = ['2021/01/23','2021/01/25']
+
+        # my_header = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'}  # my browser
+
+        res = ''
+        res_all = ''
+        dfs = {}
+        df_list = []
+        df = pd.DataFrame(columns=['0', '1', '2', '3'])
+
+        for _ in range(retry_count):
+            time.sleep(pause)
+            try:
+
+                for date, i in zip(dates, range(len(dates))):
+
+                    for url in [url_sh, url_sz]:
+                        post_data = {
+                            '__VIEWSTATE': '/wEPDwUJNjIxMTYzMDAwZGQ79IjpLOM+JXdffc28A8BMMA9+yg==',
+                            '__VIEWSTATEGENERATOR': 'EC4ACD6F',
+                            '__EVENTVALIDATION': '/wEdAAdtFULLXu4cXg1Ju23kPkBZVobCVrNyCM2j+bEk3ygqmn1KZjrCXCJtWs9HrcHg6Q64ro36uTSn/Z2SUlkm9HsG7WOv0RDD9teZWjlyl84iRMtpPncyBi1FXkZsaSW6dwqO1N1XNFmfsMXJasjxX85jz8PxJxwgNJLTNVe2Bh/bcg5jDf8=',
+                            'today': today_date,
+                            'sortBy': 'stockcode',
+                            'sortDirection': 'asc',
+                            'alertMsg': '',
+                            'txtShareholdingDate': date,
+                            'btnSearch': '搜尋'
+                        }
+                        user_agent = ua.random
+                        my_header = {'user-agent': user_agent}
+
+                        res = requests.post(url, data=post_data, headers=my_header, timeout=(5, 10)).text
+
+                        res_all = res_all + res
+
+                        # datas = data[0].split('f2"')
+                    Date_Shareholding = re.findall('<span style="text-decoration:underline;">持股日期:(.*?)</span>',
+                                                   res_all,
+                                                   re.S)
+                    data = re.findall('<div class="mobile-list-body">(.*?)</div>', res_all, re.S)
+
+                    # 将 list 按每组4个分开
+                    step = 4
+                    flows = [data[i:i + step] for i in range(0, len(data), step)]
+
+                    # 去除 % 符号
+                    for flow in flows:
+                        flow[3] = flow[3].replace('%', "")
+
+                    # locals()['df' + str(i)]
+                    dfs['df_{}'.format(i)] = pd.DataFrame(flows)
+                    # print(df0)
+                    # temp = pd.DataFrame(flows)
+
+                    dfs['df_{}'.format(i)].insert(0, 'Date', Date_Shareholding[0])
+
+                    # 清空这一轮日期的数据
+                    res = ''
+                    res_all = ''
+                    # print(dfs['df_{}'.format(i)])
+
+                    # 将所有 DF 加入 list 中
+                    df_list.append(dfs['df_{}'.format(i)])
+                    # df=pd.concat(dfs['df_{}'.format(i)])
+                    # print(df)
+                    # time.sleep(0.1)
+
+                # print(df_list)
+                # print(type(df_list))
+
+                df = pd.concat(df_list)
+
+                # df=dfs['df_0'].append(dfs['df_1'])
+
+                # df=pd.concat( [ df,dfs['df_0'] ]   )
+
+                # df = pd.concat([ dfs['df_0'], dfs['df_1'], dfs['df_2'], dfs['df_3'], dfs['df_4'] ])  # correct format
+                columns = {0: "Stock_Code", 1: "Stock_Name", 2: "Shareholding", 3: "Shareholding_Percent"}
+
+                df.rename(columns=columns, inplace=True)
+
+                # file_csv=open('C:\\Users\\DELL\\Desktop\\Data_Web\\沪深股通持股记录多日.csv','a')
+                # 追加内容到CSV
+                # df.to_csv( 'C:\\Users\\DELL\\Desktop\\Data_Web\\沪深股通持股记录多日.csv',mode='a',header=False)
+                df.to_csv('C:\\Users\\DELL\\Desktop\\ST_Web_App\\Data\\沪深股通持股记录多日.csv', mode='a', header=False)
+
+                df = pd.read_csv('C:\\Users\\DELL\\Desktop\\ST_Web_App\\Data\\沪深股通持股记录多日.csv')
+                # df = df.sort_index(ascending=False)
+                # df = df.sort_index(ascending=True)
+                print('Append data to CSV !')
+                return df
+            except Exception as e:
+                print(e)
+        raise IOError(ct.NETWORK_URL_ERROR_MSG)
+
 """
 202008 ---------板块历史资金流-----------------
 """
@@ -541,7 +738,12 @@ def get_bk_hist_capital_flow(code=None, retry_count=3,pause=0.001):
     for _ in range(retry_count):
         time.sleep(pause)
         try:
-            r = requests.get(url)
+
+            user_agent = ua.random
+            my_header = {'user-agent': user_agent}
+
+            # r = requests.get(url)
+            r = requests.get(url, headers=my_header)
             #pat = "data:\[\{(.*?)\]\}"
             pat = ":\[(.*?)\]\}\}"
             data = re.compile(pat, re.S).findall(r.text)
@@ -602,7 +804,12 @@ def get_bk_stock_capital_flow(code=None, retry_count=3, pause=0.001):
     for _ in range(retry_count):
         time.sleep(pause)
         try:
-            r = requests.get(url)
+
+            user_agent = ua.random
+            my_header = {'user-agent': user_agent}
+
+            # r = requests.get(url)
+            r = requests.get(url, headers=my_header)
             # pat = "data:\[\{(.*?)\]\}"
             pat = ":\[\{(.*?)\}\]\}\}"
             data = re.compile(pat, re.S).findall(r.text)
@@ -674,7 +881,7 @@ def get_Stock_HK_Shareholding_Today(code=None, retry_count=3, pause=0.001):
 
     today_date = dtdt.today().strftime('%Y%m%d')
 
-    my_header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'}  # my browser
+    # my_header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'}  # my browser
 
     res_all=''
 
@@ -693,6 +900,9 @@ def get_Stock_HK_Shareholding_Today(code=None, retry_count=3, pause=0.001):
                     'txtShareholdingDate': '',
                     'btnSearch': '搜尋'
                 }
+
+                user_agent = ua.random
+                my_header = {'user-agent': user_agent}
 
                 res = requests.get(url, data=post_data, headers=my_header, timeout=10).text
 
@@ -779,7 +989,7 @@ def get_All_Stock_HK_Shareholding_Hist(code=None, retry_count=3, pause=0.001):
     # print(dates)
     # dates = ['2021/01/23','2021/01/25']
 
-    my_header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'}  # my browser
+    # my_header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'}  # my browser
 
     res=''
     res_all=''
@@ -807,6 +1017,9 @@ def get_All_Stock_HK_Shareholding_Hist(code=None, retry_count=3, pause=0.001):
                         'txtShareholdingDate': date,
                         'btnSearch': '搜尋'
                     }
+
+                    user_agent = ua.random
+                    my_header = {'user-agent': user_agent}
 
                     res = requests.post(url, data=post_data, headers=my_header, timeout=(5,10)).text
 
@@ -902,7 +1115,7 @@ def get_All_Stock_HK_Shareholding_Hist_CSV(code=None, retry_count=3, pause=0.001
     # print(start_date)  # yyyymmdd
 
     # 获取csv最后日期
-    df_csv = pd.read_csv('C:\\Users\\DELL\\Desktop\\Data_Web\\沪深股通持股记录多日.csv')
+    df_csv = pd.read_csv('C:\\Users\\DELL\\Desktop\\ST_Web_App\\Data\\沪深股通持股记录多日.csv')
 
     date_csv=str.strip(df_csv.iloc[-1, 1])
     date_csv=dtdt.strptime(date_csv,'%Y/%m/%d')
@@ -961,8 +1174,7 @@ def get_All_Stock_HK_Shareholding_Hist_CSV(code=None, retry_count=3, pause=0.001
         # print(dates)
         # dates = ['2021/01/23','2021/01/25']
 
-        my_header = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'}  # my browser
+        # my_header = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'}  # my browser
 
         res = ''
         res_all = ''
@@ -988,6 +1200,9 @@ def get_All_Stock_HK_Shareholding_Hist_CSV(code=None, retry_count=3, pause=0.001
                             'txtShareholdingDate': date,
                             'btnSearch': '搜尋'
                         }
+
+                        user_agent = ua.random
+                        my_header = {'user-agent': user_agent}
 
                         res = requests.post(url, data=post_data, headers=my_header, timeout=(5, 10)).text
 
@@ -1040,14 +1255,14 @@ def get_All_Stock_HK_Shareholding_Hist_CSV(code=None, retry_count=3, pause=0.001
 
                 # file_csv=open('C:\\Users\\DELL\\Desktop\\Data_Web\\沪深股通持股记录多日.csv','a')
                 # 追加内容到CSV
-                df.to_csv( 'C:\\Users\\DELL\\Desktop\\Data_Web\\沪深股通持股记录多日.csv',mode='a',header=False)
+                # df.to_csv( 'C:\\Users\\DELL\\Desktop\\Data_Web\\沪深股通持股记录多日.csv',mode='a',header=False)
+                df.to_csv('C:\\Users\\DELL\\Desktop\\ST_Web_App\\Data\\沪深股通持股记录多日.csv', mode='a', header=False)
 
-
-                df = pd.read_csv('C:\\Users\\DELL\\Desktop\\Data_Web\\沪深股通持股记录多日.csv')
+                df = pd.read_csv('C:\\Users\\DELL\\Desktop\\ST_Web_App\\Data\\沪深股通持股记录多日.csv')
                 # df = df.sort_index(ascending=False)
                 # df = df.sort_index(ascending=True)
                 print('Append data to CSV !')
-                return df  # df=get_Stock_HK_Shareholding_Today[0]    Date_Shareholding=get_Stock_HK_Shareholding_Today[1][0]
+                return df
             except Exception as e:
                 print(e)
         raise IOError(ct.NETWORK_URL_ERROR_MSG)
